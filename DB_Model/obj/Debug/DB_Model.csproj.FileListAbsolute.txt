@@ -1,0 +1,6 @@
+N:\Facultate\Licenta\Anul 3\Semestrul 2\Lucrarea de licenta\DB_Model\bin\Debug\DB_Model.dll
+N:\Facultate\Licenta\Anul 3\Semestrul 2\Lucrarea de licenta\DB_Model\bin\Debug\DB_Model.pdb
+N:\Facultate\Licenta\Anul 3\Semestrul 2\Lucrarea de licenta\DB_Model\obj\Debug\DB_Model.csproj.AssemblyReference.cache
+N:\Facultate\Licenta\Anul 3\Semestrul 2\Lucrarea de licenta\DB_Model\obj\Debug\DB_Model.csproj.CoreCompileInputs.cache
+N:\Facultate\Licenta\Anul 3\Semestrul 2\Lucrarea de licenta\DB_Model\obj\Debug\DB_Model.dll
+N:\Facultate\Licenta\Anul 3\Semestrul 2\Lucrarea de licenta\DB_Model\obj\Debug\DB_Model.pdb
