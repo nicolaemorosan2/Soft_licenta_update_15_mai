@@ -1,0 +1,20 @@
+﻿<Window x:Class="Soft_licenta_2.Autentificare"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Soft_licenta_2"
+        mc:Ignorable="d"
+        Title="Autentificare" Height="306" Width="398" FontWeight="Bold">
+    <Border Background="#2612a6" CornerRadius="20" Margin="20">
+        <StackPanel Margin="20">
+            <Label x:Name="label_Autentificare" Content="Bine ati venit! Intrati in cont!" Foreground="White" FontSize="22" HorizontalAlignment="Center" Width="318"/>
+            <Separator></Separator>
+            <Label Name="label_Username" Content="Username" Foreground="White"/>
+            <TextBox Name="textbox_Username" Background="#FFA500" Foreground="White" FontSize="18"/>
+            <Label Name="label_Parola" Content="Parola" Foreground="White"/>
+            <PasswordBox Name="textbox_Parola" Background="#FFA500" Foreground="White" FontSize="18"/>
+            <Button Name="button_Autentificare"  Content="Autentificare" Margin="60 10" Background="#FFA500" Foreground="Black" FontSize="18" Width="139" Click="button_Autentificare_verifica_credentiale"/>
+        </StackPanel>
+    </Border>
+</Window>
