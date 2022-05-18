@@ -13,21 +13,170 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-//using System.Windows.Forms;
+using System.Data.SqlClient;
+using System.Data.Sql;
 
 
 namespace Soft_licenta_2
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
+        public MainWindow(bool is_admin)
         {
+            //Verificare true/false is_admin din fereastra autentificare.xaml
+            /*String s = is_admin.ToString();
+            MessageBox.Show(s);*/
             InitializeComponent();
+            Incarca_Grid();
+            stackpanel_crud.IsEnabled = is_admin;
         }
 
+        SqlConnection con = new SqlConnection(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Istoric_financiar_2;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+
+        //Metode CRUD
+        public void Incarca_Grid()
+        {
+            SqlCommand comanda = new SqlCommand("SELECT * FROM dbo.Situatie_financiara", con);
+            DataTable tabel = new DataTable();
+            con.Open();
+            SqlDataReader reader = comanda.ExecuteReader();
+            tabel.Load(reader);
+            con.Close();
+            datagrid_date_financiare.ItemsSource = tabel.DefaultView;
+        }
+        public void curata_date()
+        {
+            textbox_id.Clear();
+            textbox_data.Clear();
+            textbox_venituri.Clear();
+            textbox_venituri_provenite.Clear();
+            textbox_cheltuieli.Clear();
+            textbox_investitie.Clear();
+            textbox_descriere.Clear();
+        }
+        public bool este_valid()
+        {
+            if (textbox_id.Text == String.Empty)
+            {
+                MessageBox.Show("Ai uitat sa introduci ID-ul!", "Eroare", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+            if (textbox_data.Text == String.Empty)
+            {
+                MessageBox.Show("Ai uitat sa introduci Data!", "Eroare", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+            if (textbox_venituri.Text == String.Empty)
+            {
+                MessageBox.Show("Ai uitat sa introduci Veniturile!", "Eroare", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+            if (textbox_venituri_provenite.Text == String.Empty)
+            {
+                MessageBox.Show("Ai uitat sa introduci Veniturile provenite din investitii!", "Eroare", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+            if (textbox_cheltuieli.Text == String.Empty)
+            {
+                MessageBox.Show("Ai uitat sa introduci Cheltuielile!", "Eroare", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+            if (textbox_investitie.Text == String.Empty)
+            {
+                MessageBox.Show("Ai uitat sa introduci Investitiile!", "Eroare", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+            if (textbox_descriere.Text == String.Empty)
+            {
+                MessageBox.Show("Ai uitat sa introduci Descrierea investitiilor!", "Eroare", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+            return true;
+        }
+        private void Refresh_inreg(object sender, RoutedEventArgs e)
+        {
+            curata_date();
+        }
+
+        private void Adauga_inreg(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (este_valid())
+                {
+                    SqlCommand comanda = new SqlCommand("INSERT INTO dbo.Situatie_financiara VALUES(@ID_informatie, @Data, @Venituri1, @Venituri2, @Cheltuieli, @Investitii, @Descriere, @VAN, @Amortizare_liniara, @Amortizare_degresiva, @RIR, @ROI)", con);
+                    comanda.CommandType = CommandType.Text;
+                    comanda.Parameters.AddWithValue("@ID_informatie", textbox_id.Text);
+                    comanda.Parameters.AddWithValue("@Data", textbox_data.Text);
+                    comanda.Parameters.AddWithValue("@Venituri1", textbox_venituri.Text);
+                    comanda.Parameters.AddWithValue("@Venituri2", textbox_venituri_provenite.Text);
+                    comanda.Parameters.AddWithValue("@Cheltuieli", textbox_cheltuieli.Text);
+                    comanda.Parameters.AddWithValue("@Investitii", textbox_investitie.Text);
+                    comanda.Parameters.AddWithValue("@Descriere", textbox_descriere.Text);
+                    comanda.Parameters.AddWithValue("@VAN", 0.ToString());
+                    comanda.Parameters.AddWithValue("@Amortizare_liniara", 0.ToString());
+                    comanda.Parameters.AddWithValue("@Amortizare_degresiva", 0.ToString());
+                    comanda.Parameters.AddWithValue("@RIR", 0.ToString());
+                    comanda.Parameters.AddWithValue("@ROI", 0.ToString());
+                    con.Open();
+                    comanda.ExecuteNonQuery();
+                    con.Close();
+                    Incarca_Grid();
+                    MessageBox.Show("Adaugarea a reusit!", "Salvat!", MessageBoxButton.OK, MessageBoxImage.Information);
+                    curata_date();
+                }
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void Editeaza_inreg(object sender, RoutedEventArgs e)
+        {
+            con.Open();
+            SqlCommand comanda = new SqlCommand("UPDATE dbo.Situatie_financiara SET ID_Informatie = '" + textbox_id.Text +"', Data = '" + textbox_data.Text + "', Venituri1 = '" + textbox_venituri.Text + "', Venituri2 = '" + textbox_venituri_provenite.Text + "', Cheltuieli = '" + textbox_cheltuieli.Text + "', Investitii = '" + textbox_investitie.Text + "', Descriere = '" + textbox_descriere.Text + "' WHERE ID_Informatie = '" + textbox_id.Text+"' ", con);
+            try
+            {
+                comanda.ExecuteNonQuery();
+                MessageBox.Show("Editare facuta cu succes!", "Editat!", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                con.Close();
+                curata_date();
+                Incarca_Grid();
+            }
+        }
+
+        private void Sterge_inreg(object sender, RoutedEventArgs e)
+        {
+            con.Open();
+            SqlCommand comanda = new SqlCommand("DELETE FROM dbo.Situatie_financiara WHERE ID_informatie = " + textbox_id.Text + " ", con);
+            try
+            {
+                comanda.ExecuteNonQuery();
+                MessageBox.Show("Inregistrarea a fost stearsa cu succes!", "Stergere efectuata", MessageBoxButton.OK, MessageBoxImage.Information);
+                con.Close();
+                curata_date();
+                Incarca_Grid();
+                con.Close();
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show("Eroare! Stergerea nu a putut fi realizata!" + ex.Message);
+            }
+            finally
+            {
+                con.Close();
+            }
+        }
+
+        //Algoritmi si calcule
         private void initializare_cashflowuri_van(object sender, RoutedEventArgs e)
         {
             int i;
@@ -199,7 +348,7 @@ namespace Soft_licenta_2
             else
                 System.Windows.MessageBox.Show("Ati introdus o perioada > 12 luni, iar acest caz este acoperit la optiunea 'Dobanda Compusa'");
         }
-        
 
+        
     }
 }

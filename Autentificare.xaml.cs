@@ -19,12 +19,15 @@ namespace Soft_licenta_2
     /// <summary>
     /// Interaction logic for Autentificare.xaml
     /// </summary>
-    public partial class Autentificare : Window
+        
+public partial class Autentificare : Window
     {
+        public bool verificare_utilizator = false;
         public Autentificare()
         {
             InitializeComponent();
         }
+        
 
         private void button_Autentificare_verifica_credentiale(object sender, RoutedEventArgs e)
         {
@@ -33,15 +36,19 @@ namespace Soft_licenta_2
             {
                 if (sqlCon.State == ConnectionState.Closed)
                     sqlCon.Open();
-                String query = "SELECT COUNT(1) FROM Utilizatori WHERE Username=@Username AND Parola=@Parola";
-                SqlCommand sqlCmd = new SqlCommand(query, sqlCon);
+                SqlCommand sqlCmd = new SqlCommand("SELECT COUNT(1) FROM Utilizatori WHERE Username=@Username AND Parola=@Parola", sqlCon);
                 sqlCmd.CommandType = CommandType.Text;
                 sqlCmd.Parameters.AddWithValue("@Username", textbox_Username.Text);
                 sqlCmd.Parameters.AddWithValue("@Parola", textbox_Parola.Password);
                 int count = Convert.ToInt32(sqlCmd.ExecuteScalar());
                 if (count == 1)
                 {
-                    MainWindow aplicatie = new MainWindow();
+                    if (textbox_Username.Text == "admin")
+                        verificare_utilizator = true;
+                    else
+                        verificare_utilizator = false;
+
+                    MainWindow aplicatie = new MainWindow(verificare_utilizator);
                     aplicatie.Show();
                     this.Close();
                 }

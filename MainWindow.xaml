@@ -25,7 +25,7 @@
                                 </TransformGroup>
                             </TextBox.RenderTransform>
                         </TextBox>
-                        <Label x:Name="label_rata_randament_van" Content="2. Cu ce rata de randament?" Margin="22,196,388,170"/>
+                        <Label x:Name="label_rata_randament_van" Content="2. Cu ce rata de randament?" Margin="22,196,365,170"/>
                         <TextBox x:Name="rata_randament_van" TextWrapping="Wrap" Margin="25,222,383,148" RenderTransformOrigin="0.5,0.5">
                             <TextBox.RenderTransform>
                                 <TransformGroup>
@@ -50,14 +50,14 @@
                         <Button x:Name="buton_introd_cashflow_van" Content="4. Introduceti cashflow-urile" Margin="18,340,388,18" Click="initializare_cashflowuri_van"/>
                     </Grid>
                 </TabItem>
-                <TabItem Header="Amortizare liniara">
+                <TabItem Header="Amortizare liniara" Margin="-2,-2,-2,0">
                     <Grid Background="#FFE5E5E5" Margin="0,0,380,0">
                         <Label Content="Amortizare liniara pentru o investitie propusa" Margin="0,10,0,0" HorizontalContentAlignment="Center" VerticalAlignment="Top" VerticalContentAlignment="Center"/>
-                        <TextBox x:Name="suma_investita_amort_liniara" TextWrapping="Wrap" Margin="10,109,247,258"/>
                         <Label x:Name="suma_investita_amort_liniara_label" Content="1. Ce suma ati investit?" Margin="0,78,218,288" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
-                        <Label x:Name="perioada_investita_amort_liniara_label" Content="2. Pe ce perioada (exprimata in luni de zile si &lt;= 1 an)?" Margin="0,170,268,196" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
+                        <TextBox x:Name="suma_investita_amort_liniara" TextWrapping="Wrap" Margin="10,109,247,258"/>
+                        <Label x:Name="perioada_investita_amort_liniara_label" Content="2. Pe ce perioada (exprimata in luni de zile si &lt;= 1 an)?" Margin="0,170,247,196" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
                         <TextBox x:Name="perioada_investita_amort_liniara" TextWrapping="Wrap" Margin="10,201,247,166"/>
-                        <Label x:Name="amort_liniara_rezultat_label" Content="Amortizarea lunara este de:&#xA;" Margin="80,317,355,47" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
+                        <Label x:Name="amort_liniara_rezultat_label" Content="Amortizarea lunara este de:&#xA;" Margin="129,320,306,44" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
                         <TextBox x:Name="amort_liniara_rezultat" TextWrapping="Wrap" Margin="262,320,145,47"/>
                         <Button x:Name="calculeaza_amortizarea_liniara" Content="Calculeaza" Margin="10,262,247,0" FontWeight="Bold" FontStyle="Normal" FontStretch="Normal" Height="27" VerticalAlignment="Top" Click="calculeaza_amort_liniara"/>
                     </Grid>
@@ -128,13 +128,27 @@
                     </Grid>
                 </TabItem>
             </TabControl>
-            <Button x:Name="button_select_bd" Content="Selecteaza BD" Canvas.Left="816" Canvas.Top="275" HorizontalAlignment="Left" VerticalAlignment="Top" Width="108"/>
-            <Label x:Name="label_fisier_excel" Content="Fisier" Canvas.Left="562" Canvas.Top="292"/>
-            <Label x:Name="label_foaie_de_calcul" Content="Foaie de calcul" Canvas.Left="562" Canvas.Top="337" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <TextBox x:Name="textbox_fisier_excel" TextWrapping="Wrap" Width="319" Canvas.Left="605" Canvas.Top="300" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-            <ComboBox x:Name="combobox_foaie_de_calcul" Width="120" Canvas.Left="665" Canvas.Top="341" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+            <DataGrid x:Name="datagrid_date_financiare" Height="175" Width="381" d:ItemsSource="{d:SampleData ItemCount=5}" Canvas.Left="553" Canvas.Top="61" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+            <Label Content="ID Informatie" Canvas.Left="569" Canvas.Top="246" HorizontalAlignment="Left" VerticalAlignment="Center" Width="81"/>
+            <Label Content="Data" Canvas.Left="569" Canvas.Top="281" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+            <Label Content="Venituri" Canvas.Left="598" Canvas.Top="309" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+            <Label Content="Venituri din investitii" Canvas.Left="575" Canvas.Top="339" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+            <Label Content="Cheltuieli" Canvas.Left="553" Canvas.Top="366" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+            <Label Content="Investitii" Canvas.Left="595" Canvas.Top="396" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+            <Label Content="Descriere" Canvas.Left="650" Canvas.Top="427" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+            <TextBox x:Name="textbox_id" TextWrapping="Wrap" Width="120" Canvas.Left="654" Canvas.Top="250" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+            <TextBox x:Name="textbox_data" TextWrapping="Wrap" Width="120" Canvas.Left="609" Canvas.Top="285" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+            <TextBox x:Name="textbox_venituri" TextWrapping="Wrap" Width="120" Canvas.Left="654" Canvas.Top="312" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+            <TextBox x:Name="textbox_venituri_provenite" TextWrapping="Wrap" Width="120" Canvas.Left="698" Canvas.Top="343" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+            <TextBox x:Name="textbox_cheltuieli" TextWrapping="Wrap" Width="120" Canvas.Left="616" Canvas.Top="370" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <TextBox x:Name="textbox_investitie" TextWrapping="Wrap" Width="120" Canvas.Left="654" Canvas.Top="400" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <TextBox x:Name="textbox_descriere" TextWrapping="Wrap" Width="120" Canvas.Left="714" Canvas.Top="431" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+            <StackPanel x:Name="stackpanel_crud" Height="85" Width="149" Canvas.Left="785" Canvas.Top="250" HorizontalAlignment="Left" VerticalAlignment="Center" IsEnabled="False">
+                <Button x:Name="button_adauga" Content="Adauga inregistrare noua" Canvas.Left="734" Canvas.Top="285" Click="Adauga_inreg"/>
+                <Button x:Name="button_editeaza" Content="Editeaza inregistrare" Canvas.Left="744" Canvas.Top="369" HorizontalAlignment="Left" VerticalAlignment="Top" Click="Editeaza_inreg"/>
+                <Button x:Name="button_sterge" Content="Sterge inregistrare" Canvas.Left="779" Canvas.Top="398" HorizontalAlignment="Left" VerticalAlignment="Top" Click="Sterge_inreg"/>
+                <Button x:Name="button_refresh" Content="Refresh campuri" Canvas.Left="839" Canvas.Top="431" HorizontalAlignment="Center" VerticalAlignment="Top" Click="Refresh_inreg"/>
+            </StackPanel>
         </Canvas>
-
-
     </Grid>
 </Window>
