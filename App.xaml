@@ -4,6 +4,6 @@
              xmlns:local="clr-namespace:Soft_licenta_2"
              StartupUri="Autentificare.xaml">
     <Application.Resources>
-         
+        
     </Application.Resources>
 </Application>

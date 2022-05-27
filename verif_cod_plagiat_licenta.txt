@@ -1,4 +1,279 @@
-﻿using System;
+<Window x:Class="Soft_licenta_2.Autentificare"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Soft_licenta_2"
+        mc:Ignorable="d"
+        Title="Autentificare" Height="306" Width="398" FontWeight="Bold">
+    <Border Background="#2612a6" CornerRadius="20" Margin="20">
+        <StackPanel Margin="20">
+            <Label x:Name="label_Autentificare" Content="Bine ati venit! Intrati in cont!" Foreground="White" FontSize="22" HorizontalAlignment="Center" Width="318"/>
+            <Separator></Separator>
+            <Label Name="label_Username" Content="Username" Foreground="White"/>
+            <TextBox Name="textbox_Username" Background="#FFA500" Foreground="White" FontSize="18"/>
+            <Label Name="label_Parola" Content="Parola" Foreground="White"/>
+            <PasswordBox Name="textbox_Parola" Background="#FFA500" Foreground="White" FontSize="18"/>
+            <Button Name="button_Autentificare"  Content="Autentificare" Margin="60 10" Background="#FFA500" Foreground="Black" FontSize="18" Width="139" Click="button_Autentificare_verifica_credentiale"/>
+        </StackPanel>
+    </Border>
+</Window>
+
+<Application x:Class="Soft_licenta_2.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:Soft_licenta_2"
+             StartupUri="Autentificare.xaml">
+    <Application.Resources>
+         
+    </Application.Resources>
+</Application>
+
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows;
+
+namespace Soft_licenta_2
+{
+    /// <summary>
+    /// Interaction logic for App.xaml
+    /// </summary>
+    public partial class App : Application
+    {
+    }
+}
+
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
+
+namespace Soft_licenta_2
+{
+    /// <summary>
+    /// Interaction logic for Autentificare.xaml
+    /// </summary>
+        
+public partial class Autentificare : Window
+    {
+        public bool verificare_utilizator = false;
+        public Autentificare()
+        {
+            InitializeComponent();
+        }
+        
+
+        private void button_Autentificare_verifica_credentiale(object sender, RoutedEventArgs e)
+        {
+            SqlConnection sqlCon = new SqlConnection(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Utilizatori;Integrated Security=True;");
+            try
+            {
+                if (sqlCon.State == ConnectionState.Closed)
+                    sqlCon.Open();
+                SqlCommand sqlCmd = new SqlCommand("SELECT COUNT(1) FROM Utilizatori WHERE Username=@Username AND Parola=@Parola", sqlCon);
+                sqlCmd.CommandType = CommandType.Text;
+                sqlCmd.Parameters.AddWithValue("@Username", textbox_Username.Text);
+                sqlCmd.Parameters.AddWithValue("@Parola", textbox_Parola.Password);
+                int count = Convert.ToInt32(sqlCmd.ExecuteScalar());
+                if (count == 1)
+                {
+                    if (textbox_Username.Text == "admin")
+                        verificare_utilizator = true;
+                    else
+                        verificare_utilizator = false;
+
+                    MainWindow aplicatie = new MainWindow(verificare_utilizator);
+                    aplicatie.Show();
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Username or password is incorrect.");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                sqlCon.Close();
+            }
+        }
+    }
+}
+
+<Window x:Class="Soft_licenta_2.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Soft_licenta_2"
+        mc:Ignorable="d"
+        Title="Software Financiar" Height="471" Width="934">
+    <Grid>
+        <Canvas>
+            <Label Content="Aplicatia pentru Licenta - Software financiar specializat pe asistenta in luarea deciziilor" Canvas.Top="5" HorizontalAlignment="Left" VerticalAlignment="Center" Width="934" HorizontalContentAlignment="Center"/>
+            <TabControl x:Name="tabcontrol_optiuni" Height="420" Width="935" HorizontalAlignment="Left" Canvas.Top="36" VerticalAlignment="Center">
+                <TabItem x:Name="tabitem_profituri" Header="Profit">
+                    <Grid Background="#FFE5E5E5" Margin="0,0,380,0">
+                        <Label Content="Profitul firmei" Margin="0,21,0,334" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="16" FontWeight="Normal"/>
+                        <Label x:Name="label_profit_venituri_obtinute" Content="1. Ce venituri ati obtinut?" Margin="58,111,347,255"/>
+                        <TextBox x:Name="textbox_profit_venituri_obtinute" TextWrapping="Wrap" Margin="61,142,347,228" RenderTransformOrigin="0.5,0.5"/>
+                        <Label x:Name="label_profit_cheltuieli_obtinute" Content="2. Ce cheltuieli ati obtinut?" Margin="61,191,333,175"/>
+                        <TextBox x:Name="textbox_profit_cheltuieli_obtinute" TextWrapping="Wrap" Margin="61,222,347,148" RenderTransformOrigin="0.5,0.5"/>
+                        <Button x:Name="button_profit_calculeaza_profit" Content="Calculeaza profit!" Margin="188,279,188,54" Click="calculeaza_profit" FontSize="14" FontWeight="Bold"/>
+                    </Grid>
+                </TabItem>
+                <TabItem x:Name="tabitem_amortizare_liniara" Header="Amortizare liniara" Margin="-2,-2,-2,0">
+                    <Grid Background="#FFE5E5E5" Margin="0,0,380,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="4*"/>
+                            <ColumnDefinition Width="545*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="Amortizare liniara pentru o investitie propusa" Margin="0,10,0,0" HorizontalContentAlignment="Center" VerticalAlignment="Top" VerticalContentAlignment="Center" FontSize="16" Grid.ColumnSpan="2"/>
+                        <Label x:Name="label_suma_investita_amort_liniara" Content="1. Ce suma ati investit?" Margin="31,90,363,276" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Grid.Column="1"/>
+                        <TextBox x:Name="textbox_suma_investita_amort_liniara" TextWrapping="Wrap" Margin="31,121,363,246" Grid.Column="1"/>
+                        <Label x:Name="perioada_investita_amort_liniara_label" Content="2. Pe ce perioada (exprimata in luni de zile si &lt;= 1 an)?" Margin="31,190,216,176" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Grid.Column="1"/>
+                        <TextBox x:Name="perioada_investita_amort_liniara" TextWrapping="Wrap" Margin="31,221,363,146" Grid.Column="1"/>
+                        <Button x:Name="calculeaza_amortizarea_liniara" Content="Calculeaza" Margin="155,273,159,0" FontWeight="Bold" FontStyle="Normal" FontStretch="Normal" Height="58" VerticalAlignment="Top" Click="calculeaza_amort_liniara" Grid.Column="1" FontSize="14"/>
+                    </Grid>
+                </TabItem>
+                <TabItem x:Name="tabitem_amortizare_degresiva" Header="Amortizare degresiva">
+                    <Grid Background="#FFE5E5E5" Margin="0,0,380,0">
+                        <Label x:Name="label_titlu_amort_degresiva" Content="Amortizare degresiva" Margin="0,10,0,351" HorizontalContentAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" FontSize="16"/>
+                        <Label x:Name="label_suma_amort_degresiva" Content="1. Ce suma trebuie sa amortizam?" Margin="0,0,334,278" Height="28" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="191"/>
+                        <TextBox x:Name="textbox_suma_amort_degresiva" TextWrapping="Wrap" Width="138" Margin="0,0,387,250" Height="23" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
+                        <Label x:Name="label_perioada_amort_degresiva" Content="2. Care este perioada de amoritzare (&gt;2 ani)?" Margin="0,0,268,170" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="257"/>
+                        <TextBox x:Name="textbox_perioada_amort_degresiva" TextWrapping="Wrap" Width="138" Margin="0,0,387,139" Height="26" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
+                        <Button Content="Calculeaza" Margin="0,0,321,24" FontWeight="Bold" Height="72" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="141" Click="calculeaza_amort_degresiva" FontSize="14"/>
+                        <TextBox x:Name="textbox_amort_degresiva_rezultat" TextWrapping="Wrap" Margin="367,110,10,10"/>
+                        <Label Content="Tabelul cu &#xD;&#xA;amortizarile" Margin="283,110,187,238" FontWeight="Bold"/>
+                        <Label Content="An  |  Amortizare  |  Suma ramasa" Margin="362,81,0,282" FontWeight="Normal"/>
+                    </Grid>
+                </TabItem>
+                <TabItem x:Name="tabitem_dobanda_simpla" Header="Dobanda simpla" >
+                    <Grid Background="#FFE5E5E5" Margin="0,0,380,0">
+                        <Label x:Name="label_titlu_dob_simpla" Content="Dobanda simpla" Margin="0,18,0,341" HorizontalContentAlignment="Center" FontSize="16"/>
+                        <Label x:Name="label_suma_initiala_dob_simpla" Content="1. Ce suma initiala ati investit?" Margin="30,96,350,267"/>
+                        <TextBox x:Name="dob_simpla_textbox_suma_initiala" TextWrapping="Wrap" Margin="36,125,364,236"/>
+                        <Label x:Name="label_rata_dob_dob_simpla" Content="2. Ce rata a dobanzii avem?" Margin="36,196,355,166"/>
+                        <TextBox x:Name="dob_simpla_textbox_rata_dob" TextWrapping="Wrap" Margin="36,231,364,134"/>
+                        <Label x:Name="label_perioada_dob_simpla" Content="3. Pe ce perioada (&lt; de 1 an si exprimata in luni de zile) ati investit?" Margin="6,293,176,71"/>
+                        <TextBox x:Name="dob_simpla_textbox_perioada" TextWrapping="Wrap" Margin="36,326,363,37"/>
+                        <Button x:Name="buton_calculeaza_dob_simpla" Content="Calculeaza dobanda simpla" Margin="274,326,83,5" Click="calc_dob_simpla" FontSize="14" FontWeight="Bold"/>
+                    </Grid>
+                </TabItem>
+                <TabItem x:Name="tabitem_dobanda_compusa" Header="Dobanda compusa" >
+                    <Grid Background="#FFE5E5E5" Margin="0,0,380,0">
+                        <Label x:Name="label_titlu_dob_compusa" Content="Dobanda simpla" Margin="10,10,10,349" HorizontalContentAlignment="Center" FontSize="16"/>
+                        <Label x:Name="label_suma_initiala_dob_compusa" Content="1. Ce suma initiala ati investit?" Margin="4,107,375,256"/>
+                        <TextBox x:Name="dob_compusa_textbox_suma_initiala" TextWrapping="Wrap" Margin="9,141,391,220"/>
+                        <Label x:Name="label_rata_dob_dob_compusa" Content="2. Ce rata a dobanzii avem?" Margin="10,202,381,160"/>
+                        <TextBox x:Name="dob_compusa_textbox_rata_dob" TextWrapping="Wrap" Margin="9,237,390,128"/>
+                        <Label x:Name="label_perioada_dob_compusa" Content="3. Pe ce perioada (&gt;= 1 an) ati investit?" Margin="10,294,313,70"/>
+                        <TextBox x:Name="dob_compusa_textbox_perioada" TextWrapping="Wrap" Margin="9,327,391,35"/>
+                        <Button x:Name="buton_calculeaza_dob_compusa" Content="Calculeaza dobanda compusa" Margin="292,327,29,22" Click="calc_dob_compusa" FontSize="14" FontWeight="Bold"/>
+                    </Grid>
+                </TabItem>
+                <TabItem x:Name="tabitem_van" Header="VAN">
+                    <Grid Background="#FFE5E5E5" Margin="0,0,380,0">
+                        <Label Content="Valoarea actualizata neta" Margin="0,10,0,0" VerticalAlignment="Top" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+                        <Label Content="1. Ce suma ati investit?" Margin="0,0,401,295" VerticalAlignment="Bottom" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" HorizontalAlignment="Right" Width="148"/>
+                        <TextBox Name ="textbox_van_suma_investita" TextWrapping="Wrap" Margin="0,0,420,265" Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="94"/>
+                        <Label Content="2. Ce rata de randament avem?" Margin="0,0,373,225" VerticalAlignment="Bottom" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" HorizontalAlignment="Right" Width="176"/>
+                        <TextBox Name ="textbox_van_rata_randament" TextWrapping="Wrap" Margin="0,0,420,196" Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="94"/>
+                        <Label Content="3. Pe ce perioada (ani) ati investit?" Margin="0,197,348,0" VerticalAlignment="Top" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" HorizontalAlignment="Right" Width="201"/>
+                        <TextBox x:Name="textbox_van_perioada" TextWrapping="Wrap" Margin="0,0,420,140" Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="94"/>
+                        <GroupBox x:Name="groupbox_van_fluxuri_bani" Header="Fluxuri de bani (Cashflow-uri)" Margin="263,71,114,95">
+                            <StackPanel x:Name="stackpanel_van_fluxuri_bani"/>
+                        </GroupBox>
+                        <Button x:Name="button_van_introducere_cashflow" Content="Introduceti fluxurile de bani" Margin="25,272,373,70" Click="introduce_fluxuri_de_bani_van"/>
+                        <Button x:Name="button_van_calc_rir" Content="Calculeaza VAN" Margin="274,327,125,15" Click="calculeaza_van" FontSize="14" FontWeight="Bold"/>
+                    </Grid>
+                </TabItem>
+                <TabItem x:Name="tabitem_rir" Header="RIR">
+                    <Grid Background="#FFE5E5E5" Margin="0,0,380,0">
+                        <Label Content="Rata interna de rentabilitate" Margin="0,10,0,0" VerticalAlignment="Top" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+                        <Label Content="1. Ce suma ati investit?" Margin="0,0,391,260" VerticalAlignment="Bottom" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" HorizontalAlignment="Right" Width="148"/>
+                        <TextBox Name ="textbox_rir_suma_investita" TextWrapping="Wrap" Margin="0,0,417,226" Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="94"/>
+                        <Label Content="2. Pe ce perioada (ani) ati investit?" Margin="0,196,338,0" VerticalAlignment="Top" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" HorizontalAlignment="Right" Width="201"/>
+                        <TextBox x:Name="textbox_rir_perioada" TextWrapping="Wrap" Margin="0,0,417,140" Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="94"/>
+                        <GroupBox x:Name="groupbox_fluxuri_bani" Header="Fluxuri de bani (Cashflow-uri)" Margin="263,71,114,85">
+                            <StackPanel x:Name="stackpanel_fluxuri_bani"/>
+                        </GroupBox>
+                        <Button x:Name="button_rir_introducere_cashflow" Content="Introduceti fluxurile de bani" Margin="35,277,338,65" Click="introduce_fluxuri_de_bani"/>
+                        <Button x:Name="button_rir_calc_rir" Content="Calculeaza RIR" Margin="274,332,125,10" Click="calculeaza_rir" FontSize="14" FontWeight="Bold"/>
+
+                    </Grid>
+                </TabItem>
+                <TabItem x:Name="tabitem_roi" Header="ROI">
+                    <Grid Background="#FFE5E5E5" Margin="0,0,380,0">
+                        <Label Content="Return on Investment&#xD;&#xA;" Margin="10,10,10,345" HorizontalContentAlignment="Center" FontSize="16" FontWeight="Bold"/>
+                        <Label x:Name="suma_investita_roi_label" Content="1. Ce suma ati investit?" Margin="0,0,380,263" Visibility="Visible" Height="27" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="137"/>
+                        <TextBox x:Name="suma_investita_roi" TextWrapping="Wrap" Margin="32,134,0,0" Visibility="Visible" HorizontalAlignment="Left" Width="124" Height="25" VerticalAlignment="Top"/>
+                        <Label x:Name="castig_obtinut_roi_label" Content="2. Ce castig ati inregistrat?" Margin="32,215,0,0" Visibility="Visible" HorizontalAlignment="Left" Width="151" Height="27" VerticalAlignment="Top"/>
+                        <TextBox x:Name="castig_obtinut_roi" TextWrapping="Wrap" Margin="0,0,393,120" Visibility="Visible" HorizontalAlignment="Right" Width="124" Height="25" VerticalAlignment="Bottom"/>
+                        <Button Content="Calculeaza ROI" Click="calculeaza_roi" Height="53" VerticalAlignment="Top" HorizontalAlignment="Left" Width="179" Margin="274,307,0,0" FontSize="14" FontWeight="Bold"/>
+                        <!--<Label x:Name="roi_rezultat_label" Content="ROI este:" Margin="354,166,0,0" VerticalContentAlignment="Top" HorizontalContentAlignment="Center" Visibility="Visible" HorizontalAlignment="Left" Width="84" Height="25" VerticalAlignment="Top"/>
+                        <TextBox x:Name="roi_rezultat" TextWrapping="Wrap" Margin="438,166,0,0" Visibility="Visible" HorizontalAlignment="Left" Width="84" Height="25" VerticalAlignment="Top"/>-->
+                    </Grid>
+                </TabItem>
+            </TabControl>
+            <DataGrid x:Name="datagrid_date_financiare" Height="175" Width="381" d:ItemsSource="{d:SampleData ItemCount=5}" Canvas.Left="553" Canvas.Top="61" HorizontalAlignment="Center" VerticalAlignment="Top" SelectionChanged="Introdu_date_in_textboxuri"/>
+
+            <GroupBox x:Name="groupbox_crud_label" Height="219" Header="" Width="99" Canvas.Left="553" Canvas.Top="236" HorizontalAlignment="Center" VerticalAlignment="Top" IsEnabled="False">
+                <StackPanel x:Name="stackpanel_crud" Height="197" Width="85" Canvas.Left="785" Canvas.Top="250" HorizontalAlignment="Left" VerticalAlignment="Center" IsEnabled="False">
+                    <Label Content="ID Informatie" Canvas.Left="569" Canvas.Top="246" HorizontalAlignment="Left" Width="81" Height="23"/>
+                    <Label Content="Data" Canvas.Left="569" Canvas.Top="281" HorizontalAlignment="Left"/>
+                    <Label Content="Venituri" Canvas.Left="598" Canvas.Top="309" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    <Label Content="Venituri din 
+                           investitii" Canvas.Left="575" Canvas.Top="339" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    <Label Content="Cheltuieli" Width="66" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    <Label Content="Investitii" Canvas.Left="595" Canvas.Top="396" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    <Label Content="Descriere" Canvas.Left="650" Canvas.Top="427" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                </StackPanel>
+            </GroupBox>
+            <GroupBox x:Name="groupbox_crud_textbox" Height="219" Header="" Width="132" Canvas.Left="653" Canvas.Top="236" HorizontalAlignment="Center" VerticalAlignment="Top" IsEnabled="False">
+                <StackPanel>
+                    <TextBox x:Name="textbox_id" TextWrapping="Wrap" Width="120" Canvas.Left="654" Canvas.Top="250" HorizontalAlignment="Left" Height="26"/>
+                    <TextBox x:Name="textbox_data" TextWrapping="Wrap" Width="120" Canvas.Left="609" Canvas.Top="285" HorizontalAlignment="Left" Height="24"/>
+                    <TextBox x:Name="textbox_venituri" TextWrapping="Wrap" Width="120" Canvas.Left="654" Canvas.Top="312" HorizontalAlignment="Left" Height="26"/>
+                    <TextBox x:Name="textbox_venituri_provenite" TextWrapping="Wrap" Width="120" Canvas.Left="698" Canvas.Top="343" HorizontalAlignment="Left" Height="27"/>
+                    <TextBox x:Name="textbox_cheltuieli" TextWrapping="Wrap" Width="120" Canvas.Left="616" Canvas.Top="370" HorizontalAlignment="Left" Height="26"/>
+                    <TextBox x:Name="textbox_investitie" TextWrapping="Wrap" Width="120" Canvas.Left="654" Canvas.Top="400" HorizontalAlignment="Left" Height="28"/>
+                    <TextBox x:Name="textbox_descriere" TextWrapping="Wrap" Width="120" Canvas.Left="714" Canvas.Top="431" HorizontalAlignment="Left" RenderTransformOrigin="0.5,0.5" Height="28">
+                    </TextBox>
+                </StackPanel>
+            </GroupBox>
+            <GroupBox x:Name="groupbox_crud_button" Height="219" Header="" Width="149" Canvas.Left="785" Canvas.Top="236" HorizontalAlignment="Center" VerticalAlignment="Top" IsEnabled="False">
+                <StackPanel>
+                    <Button x:Name="button_adauga" Content="Adauga inregistrare noua" Canvas.Left="734" Canvas.Top="285" Click="Adauga_inreg" HorizontalAlignment="Center"/>
+                    <Button x:Name="button_editeaza" Content="Editeaza inregistrare" Canvas.Left="744" Canvas.Top="369" HorizontalAlignment="Center" VerticalAlignment="Top" Click="Editeaza_inreg"/>
+                    <Button x:Name="button_sterge" Content="Sterge inregistrare" Canvas.Left="779" Canvas.Top="398" HorizontalAlignment="Center" VerticalAlignment="Top" Click="Sterge_inreg"/>
+                    <Button x:Name="button_refresh" Content="Refresh campuri" Canvas.Left="839" Canvas.Top="431" HorizontalAlignment="Center" VerticalAlignment="Top" Click="Refresh_inreg" HorizontalContentAlignment="Center"/>
+                </StackPanel>
+            </GroupBox>
+        </Canvas>
+    </Grid>
+</Window>
+
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -30,9 +305,7 @@ namespace Soft_licenta_2
             //Verificare true/false is_admin din fereastra autentificare.xaml
             /*String s = is_admin.ToString();
             MessageBox.Show(s);*/
-            
             InitializeComponent();
-            this.SizeToContent = System.Windows.SizeToContent.WidthAndHeight;
             Incarca_Grid();
             groupbox_crud_label.IsEnabled = is_admin;
             groupbox_crud_textbox.IsEnabled = is_admin;

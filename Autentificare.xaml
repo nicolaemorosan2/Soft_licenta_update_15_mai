@@ -5,16 +5,29 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Soft_licenta_2"
         mc:Ignorable="d"
-        Title="Autentificare" Height="306" Width="398" FontWeight="Bold">
-    <Border Background="#2612a6" CornerRadius="20" Margin="20">
-        <StackPanel Margin="20">
-            <Label x:Name="label_Autentificare" Content="Bine ati venit! Intrati in cont!" Foreground="White" FontSize="22" HorizontalAlignment="Center" Width="318"/>
-            <Separator></Separator>
-            <Label Name="label_Username" Content="Username" Foreground="White"/>
-            <TextBox Name="textbox_Username" Background="#FFA500" Foreground="White" FontSize="18"/>
-            <Label Name="label_Parola" Content="Parola" Foreground="White"/>
-            <PasswordBox Name="textbox_Parola" Background="#FFA500" Foreground="White" FontSize="18"/>
-            <Button Name="button_Autentificare"  Content="Autentificare" Margin="60 10" Background="#FFA500" Foreground="Black" FontSize="18" Width="139" Click="button_Autentificare_verifica_credentiale"/>
+        Title="CMEC inSight 3000" Height="447" Width="528" FontWeight="Bold" Background="Orange">
+    <Border Background="#4287f5" CornerRadius="50" HorizontalAlignment="Center" VerticalAlignment="Top" Width="528">
+
+        <StackPanel Margin="10">
+
+            <StackPanel>
+                <Label x:Name="label_Autentificare" Content="Bine ați venit! Intrați în cont!" Foreground="White" FontSize="22" HorizontalAlignment="Center" Width="318" FontWeight="DemiBold"/>
+                <Separator></Separator>
+            </StackPanel>
+
+            <StackPanel Width="430" HorizontalAlignment="Center" Height="161" Margin="0,10,0,0">
+                <Label Name="label_Username" Content="Username" Foreground="White" Width="69" HorizontalAlignment="Center"/>
+                <TextBox Name="textbox_Username" Background="Orange" Foreground="White" FontSize="18" Width="190" HorizontalAlignment="Center"/>
+                <Label Name="label_Parola" Content="Parola" Foreground="White" Width="47" HorizontalAlignment="Center"/>
+                <PasswordBox Name="textbox_Parola" Background="#FFA500" Foreground="White" FontSize="18" Width="190" HorizontalAlignment="Center"/>
+                <Button Name="button_Autentificare"  Content="Autentificare" Margin="60,14,60,10" Background="#FFA500" Foreground="Black" FontSize="18" Width="138" Click="button_Autentificare_verifica_credentiale" Height="32"/>
+            </StackPanel>
+
+            <StackPanel Height="186" RenderTransformOrigin="0.5,0.5" Width="598" HorizontalAlignment="Center" Margin="0,10,0,0">
+                <Image Height="185" Width="566" Source="N:\Work\Morosan's Educational Company\Poze si Video\Logo\logo.png" />
+            </StackPanel>
+
+
         </StackPanel>
     </Border>
 </Window>
