@@ -204,6 +204,7 @@
                 </StackPanel>
             </GroupBox>
             <Image Height="70" Width="180" Canvas.Left="728" Canvas.Top="5" Source="N:\Work\Morosan's Educational Company\Poze si Video\Logo\logo.png" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            
         </Canvas>
     </Grid>
 </Window>

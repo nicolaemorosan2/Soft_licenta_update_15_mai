@@ -1,0 +1,5 @@
+grafice generate
+admin drepturi partiale - acces doar la o baza de date
+admin drepturi totale - sa poata modifica contul celalalt
+spart tabel in doua
+unit cele 2 baze de date in una singura, de fapt, care e relationata

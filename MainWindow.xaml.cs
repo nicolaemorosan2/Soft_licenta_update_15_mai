@@ -27,10 +27,6 @@ namespace Soft_licenta_2
         //List<Label> label_fluxuri_bani;
         public MainWindow(bool is_admin)
         {
-            //Verificare true/false is_admin din fereastra autentificare.xaml
-            /*String s = is_admin.ToString();
-            MessageBox.Show(s);*/
-            
             InitializeComponent();
             this.SizeToContent = System.Windows.SizeToContent.WidthAndHeight;
             Incarca_Grid();
@@ -139,7 +135,7 @@ namespace Soft_licenta_2
         }
         public bool este_valid()
         {
-            if (textbox_id.Text == String.Empty)
+            if (textbox_id.Text == String.Empty /*|| textbox_id.Text == */)
             {
                 MessageBox.Show("Ai uitat sa introduci ID-ul!", "Eroare", MessageBoxButton.OK, MessageBoxImage.Error);
                 return false;

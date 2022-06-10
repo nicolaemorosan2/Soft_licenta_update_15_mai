@@ -37,6 +37,7 @@ public partial class Autentificare : Window
                 if (sqlCon.State == ConnectionState.Closed)
                     sqlCon.Open();
                 SqlCommand sqlCmd = new SqlCommand("SELECT COUNT(1) FROM Utilizatori WHERE Username=@Username AND Parola=@Parola", sqlCon);
+                //SqlCommand sqlCmd = new SqlCommand("SELECT COUNT(1) FROM [Utilizatori] WHERE '"StrComp("'[Username]'","'@Username'",CompareMethod.Text) = 0 AND StrComp([Parola],@Parola,CompareMethod.Text) = 0", sqlCon);
                 sqlCmd.CommandType = CommandType.Text;
                 sqlCmd.Parameters.AddWithValue("@Username", textbox_Username.Text);
                 sqlCmd.Parameters.AddWithValue("@Parola", textbox_Parola.Password);
