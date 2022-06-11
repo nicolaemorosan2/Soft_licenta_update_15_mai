@@ -62,7 +62,7 @@
     </Window.Resources>
     <Grid Margin="0,0,0,-6">
         <Canvas>
-            <Label Content="Aplicație WPF utilizată în luarea deciziilor în cadrul organizației familiei" Canvas.Top="5" HorizontalAlignment="Left" VerticalAlignment="Center" Width="730" HorizontalContentAlignment="Center" Background="#4287f5" Foreground="White" VerticalContentAlignment="Center" FontSize="22" FontWeight="DemiBold"/>
+            <Label Content="Aplicație WPF utilizată în luarea deciziilor în cadrul organizației familiei" HorizontalAlignment="Center" VerticalAlignment="Top" Width="730" HorizontalContentAlignment="Center" Background="#4287f5" Foreground="White" VerticalContentAlignment="Center" FontSize="22" FontWeight="DemiBold" Height="36"/>
             <TabControl x:Name="tabcontrol_optiuni" Height="424" Width="935" HorizontalAlignment="Center" Canvas.Top="56" VerticalAlignment="Top" Background="#FF4287F5">
                 <TabItem x:Name="tabitem_profituri" Header="Profit">
                     <Grid Margin="0,0,380,0">
@@ -169,6 +169,39 @@
                         <Button Content="Calculeaza ROI" Click="calculeaza_roi" Height="53" VerticalAlignment="Top" HorizontalAlignment="Left" Width="179" Margin="274,307,0,0" FontSize="14" FontWeight="Bold"/>
                     </Grid>
                 </TabItem>
+                <TabItem x:Name="tabitem_crud_conturi" Header="CRUD utilizatori" Margin="26,-2,-30,0">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="435*"/>
+                            <ColumnDefinition Width="494*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label x:Name="label_crud_utilizatori" Content="Operații CRUD utilizatori" HorizontalAlignment="Left" Width="562" Foreground="White" Margin="-16,0,0,358" HorizontalContentAlignment="Center" Grid.ColumnSpan="2"  FontSize="20" FontWeight="DemiBold"/>
+                        <Label x:Name="x2" HorizontalAlignment="Left" Width="185" Height="23" Foreground="White" Margin="0,187,0,186"/>
+                        <DataGrid x:Name="datagrid_utilizatori" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="92,61,53,191" SelectionChanged="Autofill_utilizatori"/>
+
+                        <GroupBox x:Name="groupbox_crud_labela" Header="Credențiale" Height="95" Width="120" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="8,251,0,0">
+                            <StackPanel x:Name="stackpanel_crud_utilizatori_label" Height="71" IsEnabled="False" Margin="0,0,-2,0">
+                                <Label Content="Nume de utilizator" Canvas.Left="569" Canvas.Top="246" HorizontalAlignment="Left" Width="109" Height="23" Foreground="White"/>
+                                <Label Content="Parola" Canvas.Left="569" Canvas.Top="281" HorizontalAlignment="Left" Foreground="White"/>
+                                <Label Content="Tipul de cont" Canvas.Left="598" Canvas.Top="309" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="White"/>
+                            </StackPanel>
+                        </GroupBox>
+                        <GroupBox x:Name="groupbox_crud_utilizatori_date" Height="95" Width="132" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="133,260,0,0">
+                            <StackPanel Height="75">
+                                <TextBox x:Name="textbox_nume_utilizator" TextWrapping="Wrap" Width="120" Canvas.Left="654" Canvas.Top="250" HorizontalAlignment="Left" Height="26"/>
+                                <TextBox x:Name="textbox_parola" TextWrapping="Wrap" Width="120" Canvas.Left="609" Canvas.Top="285" HorizontalAlignment="Left" Height="24"/>
+                                <TextBox x:Name="textbox_tip_cont" TextWrapping="Wrap" Width="120" Canvas.Left="654" Canvas.Top="312" HorizontalAlignment="Left" Height="26"/>
+                            </StackPanel>
+                        </GroupBox>
+                        <GroupBox x:Name="groupbox_crud_utilizatori" Header="CRUD" Margin="365,256,448,55" Grid.ColumnSpan="2">
+                            <StackPanel>
+                                <Button x:Name="button_adauga_utilizator" Content="Adauga utilizator" Canvas.Left="734" Canvas.Top="285" Click="Adauga_utilizator" HorizontalAlignment="Center"/>
+                                <Button x:Name="button_editeaza_utilizator" Content="Editeaza utilizator" Canvas.Left="744" Canvas.Top="369" HorizontalAlignment="Center" VerticalAlignment="Top" Click="Editeaza_utilizator"/>
+                                <Button x:Name="button_sterge_utilizator" Content="Sterge utilizator" Canvas.Left="779" Canvas.Top="398" HorizontalAlignment="Center" VerticalAlignment="Top" Click="Sterge_utilizator" />
+                            </StackPanel>
+                        </GroupBox>
+                    </Grid>
+                </TabItem>
             </TabControl>
             <DataGrid x:Name="datagrid_date_financiare" Height="185" Width="381" d:ItemsSource="{d:SampleData ItemCount=5}" Canvas.Left="553" Canvas.Top="83" HorizontalAlignment="Center" VerticalAlignment="Top" SelectionChanged="Introdu_date_in_textboxuri"/>
 
@@ -204,7 +237,7 @@
                 </StackPanel>
             </GroupBox>
             <Image Height="70" Width="180" Canvas.Left="728" Canvas.Top="5" Source="N:\Work\Morosan's Educational Company\Poze si Video\Logo\logo.png" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            
+
         </Canvas>
     </Grid>
 </Window>

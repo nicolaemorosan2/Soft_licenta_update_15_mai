@@ -24,8 +24,9 @@ namespace Soft_licenta_2
         public float row_id = 0, rezultat = 0;
         public int i = 0;
         List<TextBox> textbox_fluxuri_bani;
-        //List<Label> label_fluxuri_bani;
-        public MainWindow(bool is_admin)
+        SqlConnection con = new SqlConnection(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Istoric_financiar_4;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+
+        public MainWindow(bool is_admin, bool is_admin_partial)
         {
             InitializeComponent();
             this.SizeToContent = System.Windows.SizeToContent.WidthAndHeight;
@@ -33,8 +34,8 @@ namespace Soft_licenta_2
             groupbox_crud_label.IsEnabled = is_admin;
             groupbox_crud_textbox.IsEnabled = is_admin;
             groupbox_crud_button.IsEnabled = is_admin;
+            tabitem_crud_conturi.IsEnabled = is_admin_partial;
         }
-        SqlConnection con = new SqlConnection(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Istoric_financiar_4;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");        
         
         //CRUD
         private void Refresh_inreg(object sender, RoutedEventArgs e)
@@ -43,6 +44,7 @@ namespace Soft_licenta_2
         }
         private void Adauga_inreg(object sender, RoutedEventArgs e)
         {
+            
             try
             {
                 if (este_valid())
@@ -84,44 +86,48 @@ namespace Soft_licenta_2
             }
             finally
             {
-                con.Close();
                 curata_date();
                 Incarca_Grid();
+                con.Close();
             }
         }
         private void Sterge_inreg(object sender, RoutedEventArgs e)
         {
-            con.Open();
+            
             SqlCommand comanda = new SqlCommand("DELETE FROM dbo.Situatie_financiara WHERE ID_informatie = " + textbox_id.Text + " ", con);
             try
             {
+                con.Open();
                 comanda.ExecuteNonQuery();
-                MessageBox.Show("Inregistrarea a fost stearsa cu succes!", "Stergere efectuata", MessageBoxButton.OK, MessageBoxImage.Information);
                 con.Close();
+                MessageBox.Show("Inregistrarea a fost stearsa cu succes!", "Stergere efectuata", MessageBoxButton.OK, MessageBoxImage.Information);
                 curata_date();
                 Incarca_Grid();
-                con.Close();
             }
             catch (SqlException ex)
             {
                 MessageBox.Show("Eroare! Stergerea nu a putut fi realizata!" + ex.Message);
-            }
-            finally
-            {
-                con.Close();
             }
         }
 
         //Functii extra CRUD
         public void Incarca_Grid()
         {
+            //Datagrid date financiare
+            
             SqlCommand comanda = new SqlCommand("SELECT * FROM dbo.Situatie_financiara", con);
+            SqlCommand comanda1 = new SqlCommand("SELECT * FROM dbo.Utilizatori", con);
             DataTable tabel = new DataTable();
+            DataTable tabel1 = new DataTable();
             con.Open();
             SqlDataReader reader = comanda.ExecuteReader();
             tabel.Load(reader);
+            SqlDataReader reader1 = comanda1.ExecuteReader();
+            tabel1.Load(reader1);
             con.Close();
             datagrid_date_financiare.ItemsSource = tabel.DefaultView;
+            datagrid_utilizatori.ItemsSource = tabel1.DefaultView;
+            
         }
         public void curata_date()
         {
@@ -132,6 +138,12 @@ namespace Soft_licenta_2
             textbox_cheltuieli.Clear();
             textbox_investitie.Clear();
             textbox_descriere.Clear();
+        }
+        public void curata_date_utilizatori()
+        {
+            textbox_nume_utilizator.Clear();
+            textbox_parola.Clear();
+            textbox_tip_cont.Clear();
         }
         public bool este_valid()
         {
@@ -172,6 +184,60 @@ namespace Soft_licenta_2
             }
             return true;
         }
+
+        //Operatii CRUD utilizatori
+        private void Adauga_utilizator(object sender, RoutedEventArgs e)
+        {
+            SqlCommand comanda = new SqlCommand("INSERT INTO dbo.Utilizatori (nume_utilizator, parola, tip_cont) VALUES (@nume_utilizator, @parola, @tip_de_cont)", con);
+            comanda.CommandType = CommandType.Text;
+            comanda.Parameters.AddWithValue("@nume_utilizator", textbox_nume_utilizator.Text);
+            comanda.Parameters.AddWithValue("@parola", textbox_parola.Text);
+            comanda.Parameters.AddWithValue("@tip_de_cont", textbox_tip_cont.Text);
+            con.Open();
+            comanda.ExecuteNonQuery();
+            Incarca_Grid();
+            curata_date_utilizatori();
+            MessageBox.Show("Cont adaugat!", "Inregistrare noua!", MessageBoxButton.OK, MessageBoxImage.Information);
+            con.Close();
+        }
+        private void Editeaza_utilizator(object sender, RoutedEventArgs e)
+        {
+            
+            SqlCommand comanda = new SqlCommand("UPDATE dbo.Utilizatori SET nume_utilizator = '" + textbox_nume_utilizator.Text + "', parola = '" + textbox_parola.Text + "', tip_cont = '" + textbox_tip_cont.Text + "' WHERE nume_utilizator = '" + textbox_nume_utilizator.Text + "' ", con); 
+            try
+            {
+                con.Open();
+                comanda.ExecuteNonQuery();
+                MessageBox.Show("Editare facuta cu succes!", "Editat!", MessageBoxButton.OK, MessageBoxImage.Information);
+                curata_date_utilizatori();
+                Incarca_Grid();
+                con.Close();
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void Sterge_utilizator(object sender, RoutedEventArgs e)
+        {
+            
+            SqlCommand comanda = new SqlCommand("DELETE FROM dbo.Utilizatori WHERE nume_utilizator = " + textbox_nume_utilizator.Text + " ", con);
+            try
+            {
+                con.Open();
+                comanda.ExecuteNonQuery();
+                MessageBox.Show("Inregistrarea a fost stearsa cu succes!", "Stergere efectuata", MessageBoxButton.OK, MessageBoxImage.Information);
+                curata_date_utilizatori();
+                Incarca_Grid();
+                con.Close();
+            }
+            catch (SqlException ex)
+            {
+                // MessageBox.Show("Eroare! Stergerea nu a putut fi realizata!" + ex.Message);
+            }
+        }
+
 
         //Algoritmi si calcule
         private void calculeaza_profit(object sender, RoutedEventArgs e)
@@ -517,7 +583,22 @@ namespace Soft_licenta_2
             Incarca_Grid();
         }
 
-        //Event handler de la datagrid (SelectionChanged) pentru a introduce datele in textboxuri
+        //Event handlere de la datagriduri (SelectionChanged) pentru a introduce datele in textboxuri
+        private void Autofill_utilizatori(object sender, SelectionChangedEventArgs e)
+        {
+            TabItem optiuni = (TabItem)tabcontrol_optiuni.SelectedItem;
+            DataGrid dg = (DataGrid)sender;
+            DataRowView rand_selectat = dg.SelectedItem as DataRowView;
+            if (rand_selectat != null)
+            {
+                textbox_nume_utilizator.Text = rand_selectat["nume_utilizator"].ToString();
+                textbox_parola.Text = rand_selectat["parola"].ToString();
+                textbox_tip_cont.Text = rand_selectat["tip_cont"].ToString();
+            }
+        }
+
+        
+
         private void Introdu_date_in_textboxuri(object sender, SelectionChangedEventArgs e)
         {
             TabItem optiuni = (TabItem)tabcontrol_optiuni.SelectedItem;
