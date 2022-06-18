@@ -20,7 +20,7 @@ namespace Soft_licenta_2
     /// Interaction logic for Autentificare.xaml
     /// </summary>
         
-public partial class Autentificare : Window
+    public partial class Autentificare : Window
     {
         public bool verificare_utilizator_crud_date = false, verificare_utilizator_crud_conturi = false;
         public Autentificare()
@@ -36,12 +36,15 @@ public partial class Autentificare : Window
             {
                 if (sqlCon.State == ConnectionState.Closed)
                     sqlCon.Open();
-                SqlCommand sqlCmd = new SqlCommand("SELECT COUNT(1) FROM [dbo].[Utilizatori] WHERE nume_utilizator=@nume_utilizator AND parola=@parola", sqlCon);
-                //SqlCommand sqlCmd = new SqlCommand("SELECT COUNT(1) FROM [Utilizatori] WHERE '"StrComp("'[Username]'","'@Username'",CompareMethod.Text) = 0 AND StrComp([Parola],@Parola,CompareMethod.Text) = 0", sqlCon);
+                SqlCommand sqlCmd = new SqlCommand("SELECT COUNT(1) FROM [dbo].[Utilizatori] WHERE nume_utilizator = @nume_utilizator AND parola = @parola", sqlCon);
+                //SqlCommand sqlCmd = new SqlCommand("SELECT COUNT(1) FROM [dbo].[Utilizatori] WHERE nume_utilizator LIKE @nume_utilizator AND parola LIKE @parola", sqlCon);
+                //SqlCommand sqlCmd = new SqlCommand("SELECT COUNT(1) FROM [dbo].[Utilizatori] WHERE STRCMP(nume_utilizator, @nume_utilizator) = 0 AND STRCMP(parola, @parola) = 0", sqlCon);
+                //There is no built-in function for comparing Strings char by char; s-ar putea cu DIFFERENCE sau SOUNDEX, dar merge mai degraba pe aproximativ - ori mie imi trebuie FIX la fel
                 sqlCmd.CommandType = CommandType.Text;
                 sqlCmd.Parameters.AddWithValue("@nume_utilizator", textbox_Username.Text);
                 sqlCmd.Parameters.AddWithValue("@parola", textbox_Parola.Password);
                 int count = Convert.ToInt32(sqlCmd.ExecuteScalar());
+
                 if (count == 1)
                 {
                     if (textbox_Username.Text == "admin") { 

@@ -3,13 +3,19 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:chart="clr-namespace:Syncfusion.UI.Xaml.Charts;assembly=Syncfusion.SfChart.WPF"
         xmlns:local="clr-namespace:Soft_licenta_2"
         mc:Ignorable="d"
         SizeToContent="WidthAndHeight"
         MinHeight="523"
         MinWidth="955"
         Title="CMEC inSight 3000" Height="500" Width="937" Background="Orange">
-    <Window.Resources >
+    <Window.DataContext>
+        <!--<local:Test/>-->
+        <local:Model_date/>
+    </Window.DataContext>
+
+    <Window.Resources>
         <Style TargetType ="TextBox">
             <Setter Property="Background" Value="Orange"/>
             <Setter Property="Foreground" Value="White"/>
@@ -169,6 +175,77 @@
                         <Button Content="Calculeaza ROI" Click="calculeaza_roi" Height="53" VerticalAlignment="Top" HorizontalAlignment="Left" Width="179" Margin="274,307,0,0" FontSize="14" FontWeight="Bold"/>
                     </Grid>
                 </TabItem>
+                <TabItem x:Name="tabitem_chart" Header="Grafice">
+                    <Canvas>
+                        <Button Content="Afiseaza grafice" Height="52" Canvas.Left="214" Canvas.Top="63" HorizontalAlignment="Left" VerticalAlignment="Top" Width="101" Click="afiseaza_grafice"/>
+                        <!--<Grid Margin="26,0,384,0" Height="384">
+                        
+                        <chart:SfChart Header="Evoluția firmei" Margin="0,0,10,0">
+                            
+                            <chart:SfChart.PrimaryAxis>
+                                <chart:NumericalAxis  Header="Data la care facem analiza" />
+                            </chart:SfChart.PrimaryAxis>
+                            
+                            <chart:SfChart.SecondaryAxis>
+                                <chart:NumericalAxis  Header="Sumele de bani"/>
+                            </chart:SfChart.SecondaryAxis>
+                            
+                            <chart:SfChart.Legend>
+                                <chart:ChartLegend/>
+                            </chart:SfChart.Legend>-->
+
+                        <!--<chart:ColumnSeries Label="Venituri" ItemsSource="{Binding Data}" XBindingPath="Data" YBindingPath="Venituri" Palette="RedChrome" ShowTooltip="True" >
+                                <chart:ColumnSeries.AdornmentsInfo>
+                                    <chart:ChartAdornmentInfo ShowLabel="True"/>
+                                </chart:ColumnSeries.AdornmentsInfo>
+                            </chart:ColumnSeries>
+
+                            <chart:ColumnSeries Label="Venituri din investitii" ItemsSource="{Binding Data}" XBindingPath="Data" YBindingPath="Venituri_din_investitii" Palette="BlueChrome" ShowTooltip="True">
+                                <chart:ColumnSeries.AdornmentsInfo>
+                                    <chart:ChartAdornmentInfo ShowLabel="True"/>
+                                </chart:ColumnSeries.AdornmentsInfo>
+                            </chart:ColumnSeries>
+
+                            <chart:ColumnSeries Label="Cheltuieli" ItemsSource="{Binding Data}" XBindingPath="Data" YBindingPath="Cheltuieli" Palette="GreenChrome" ShowTooltip="True" >
+                                <chart:ColumnSeries.AdornmentsInfo>
+                                    <chart:ChartAdornmentInfo ShowLabel="True"/>
+                                </chart:ColumnSeries.AdornmentsInfo>
+                            </chart:ColumnSeries>
+
+                            <chart:ColumnSeries Label="Investitii" ItemsSource="{Binding Data}" XBindingPath="Data" YBindingPath="Investitii" Palette="PurpleChrome" ShowTooltip="True" >
+                                <chart:ColumnSeries.AdornmentsInfo>
+                                    <chart:ChartAdornmentInfo ShowLabel="True"/>
+                                </chart:ColumnSeries.AdornmentsInfo>
+                            </chart:ColumnSeries>-->
+
+                        <!--<chart:ColumnSeries Label="Venituri" ItemsSource="{Binding Lista_Date}" XBindingPath="Data" YBindingPath="Venituri" Palette="RedChrome" ShowTooltip="True" >
+                                <chart:ColumnSeries.AdornmentsInfo>
+                                    <chart:ChartAdornmentInfo ShowLabel="True"/>
+                                </chart:ColumnSeries.AdornmentsInfo>
+                            </chart:ColumnSeries>
+
+                            <chart:ColumnSeries Label="Venituri din investitii" ItemsSource="{Binding Lista_Date}" XBindingPath="Data" YBindingPath="Venituri_din_investitii" Palette="BlueChrome" ShowTooltip="True">
+                                <chart:ColumnSeries.AdornmentsInfo>
+                                    <chart:ChartAdornmentInfo ShowLabel="True"/>
+                                </chart:ColumnSeries.AdornmentsInfo>
+                            </chart:ColumnSeries>
+
+                            <chart:ColumnSeries Label="Cheltuieli" ItemsSource="{Binding Lista_Date}" XBindingPath="Data" YBindingPath="Cheltuieli" Palette="GreenChrome" ShowTooltip="True" >
+                                <chart:ColumnSeries.AdornmentsInfo>
+                                    <chart:ChartAdornmentInfo ShowLabel="True"/>
+                                </chart:ColumnSeries.AdornmentsInfo>
+                            </chart:ColumnSeries>
+
+                            <chart:ColumnSeries Label="Investitii" ItemsSource="{Binding Lista_Date}" XBindingPath="Data" YBindingPath="Investitii" Palette="PurpleChrome" ShowTooltip="True" >
+                                <chart:ColumnSeries.AdornmentsInfo>
+                                    <chart:ChartAdornmentInfo ShowLabel="True"/>
+                                </chart:ColumnSeries.AdornmentsInfo>
+                            </chart:ColumnSeries>
+
+                        </chart:SfChart>
+                    </Grid>-->
+                    </Canvas>
+                </TabItem>
                 <TabItem x:Name="tabitem_crud_conturi" Header="CRUD utilizatori" Margin="26,-2,-30,0">
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -179,15 +256,17 @@
                         <Label x:Name="x2" HorizontalAlignment="Left" Width="185" Height="23" Foreground="White" Margin="0,187,0,186"/>
                         <DataGrid x:Name="datagrid_utilizatori" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="92,61,53,191" SelectionChanged="Autofill_utilizatori"/>
 
-                        <GroupBox x:Name="groupbox_crud_labela" Header="Credențiale" Height="95" Width="120" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="8,251,0,0">
-                            <StackPanel x:Name="stackpanel_crud_utilizatori_label" Height="71" IsEnabled="False" Margin="0,0,-2,0">
+                        <GroupBox x:Name="groupbox_crud_labela" Header="Credențiale" Height="136" Width="120" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="8,234,0,0">
+                            <StackPanel x:Name="stackpanel_crud_utilizatori_label" Height="106" IsEnabled="False" Margin="0,0,-2,0">
+                                <Label Content="Id" Canvas.Left="569" Canvas.Top="246" HorizontalAlignment="Left" Width="109" Height="23" Foreground="White"/>
                                 <Label Content="Nume de utilizator" Canvas.Left="569" Canvas.Top="246" HorizontalAlignment="Left" Width="109" Height="23" Foreground="White"/>
                                 <Label Content="Parola" Canvas.Left="569" Canvas.Top="281" HorizontalAlignment="Left" Foreground="White"/>
                                 <Label Content="Tipul de cont" Canvas.Left="598" Canvas.Top="309" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="White"/>
                             </StackPanel>
                         </GroupBox>
-                        <GroupBox x:Name="groupbox_crud_utilizatori_date" Height="95" Width="132" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="133,260,0,0">
-                            <StackPanel Height="75">
+                        <GroupBox x:Name="groupbox_crud_utilizatori_date" Height="130" Width="132" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="133,240,0,0">
+                            <StackPanel Height="107">
+                                <TextBox x:Name="textbox_id_utilizator" TextWrapping="Wrap" Width="120" Canvas.Left="654" Canvas.Top="250" HorizontalAlignment="Left" Height="26" IsEnabled="False"/>
                                 <TextBox x:Name="textbox_nume_utilizator" TextWrapping="Wrap" Width="120" Canvas.Left="654" Canvas.Top="250" HorizontalAlignment="Left" Height="26"/>
                                 <TextBox x:Name="textbox_parola" TextWrapping="Wrap" Width="120" Canvas.Left="609" Canvas.Top="285" HorizontalAlignment="Left" Height="24"/>
                                 <TextBox x:Name="textbox_tip_cont" TextWrapping="Wrap" Width="120" Canvas.Left="654" Canvas.Top="312" HorizontalAlignment="Left" Height="26"/>
@@ -200,9 +279,12 @@
                                 <Button x:Name="button_sterge_utilizator" Content="Sterge utilizator" Canvas.Left="779" Canvas.Top="398" HorizontalAlignment="Center" VerticalAlignment="Top" Click="Sterge_utilizator" />
                             </StackPanel>
                         </GroupBox>
+
                     </Grid>
                 </TabItem>
+
             </TabControl>
+
             <DataGrid x:Name="datagrid_date_financiare" Height="185" Width="381" d:ItemsSource="{d:SampleData ItemCount=5}" Canvas.Left="553" Canvas.Top="83" HorizontalAlignment="Center" VerticalAlignment="Top" SelectionChanged="Introdu_date_in_textboxuri"/>
 
             <GroupBox x:Name="groupbox_crud_label" Header="Categorii" Height="212" Width="99" Canvas.Left="553" Canvas.Top="268" HorizontalAlignment="Center" VerticalAlignment="Top" IsEnabled="False">
