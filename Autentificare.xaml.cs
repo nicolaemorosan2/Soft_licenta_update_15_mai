@@ -27,8 +27,6 @@ namespace Soft_licenta_2
         {
             InitializeComponent();
         }
-        
-
         private void button_Autentificare_verifica_credentiale(object sender, RoutedEventArgs e)
         {
             SqlConnection sqlCon = new SqlConnection(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Istoric_financiar_4;Integrated Security=True;");

@@ -87,7 +87,7 @@
                             <ColumnDefinition Width="4*"/>
                             <ColumnDefinition Width="545*"/>
                         </Grid.ColumnDefinitions>
-                        <Label Content="Amortizarea liniară pentru o investiție propusă" Margin="0,10,0,0" HorizontalContentAlignment="Center" VerticalAlignment="Top" VerticalContentAlignment="Center" FontSize="20" FontWeight="DemiBold" Grid.ColumnSpan="2" Height="34"/>
+                        <Label Content="Amortizarea liniară pentru o investiție propusă" Margin="0,10,0,0" HorizontalContentAlignment="Center" VerticalAlignment="Top" VerticalContentAlignment="Center" FontSize="20" FontWeight="DemiBold" Grid.ColumnSpan="2" Height="36"/>
                         <Label x:Name="label_suma_investita_amort_liniara" Content="1. Ce suma ati investit?" Margin="31,90,363,276" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Grid.Column="1"/>
                         <TextBox x:Name="textbox_suma_investita_amort_liniara" TextWrapping="Wrap" Margin="31,121,363,246" Grid.Column="1"/>
                         <Label x:Name="perioada_investita_amort_liniara_label" Content="2. Pe ce perioada (exprimata in luni de zile si &lt;= 1 an)?" Margin="31,190,216,176" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Grid.Column="1"/>

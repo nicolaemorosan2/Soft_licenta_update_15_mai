@@ -19,6 +19,8 @@
         <Canvas>
             <chart:SfChart Margin="10,10,10,10" Header="Evoluția firmei" MinHeight="764" MaxHeight="764" MinWidth="1280" Canvas.Left="10" Canvas.Top="10" HorizontalAlignment="Stretch" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
 
+
+
                 <chart:SfChart.PrimaryAxis>
                     <chart:NumericalAxis  Header="Data la care facem analiza" />
                 </chart:SfChart.PrimaryAxis>
@@ -28,7 +30,7 @@
                 </chart:SfChart.SecondaryAxis>
 
                 <chart:SfChart.Legend>
-                    <chart:ChartLegend/>
+                    <chart:ChartLegend CheckBoxVisibility="Visible"/>
                 </chart:SfChart.Legend>
 
                 <!--<chart:ColumnSeries Label="Venituri" ItemsSource="{Binding Data}" XBindingPath="Data" YBindingPath="Venituri" Palette="RedChrome" ShowTooltip="True" >
@@ -55,33 +57,34 @@
                                 </chart:ColumnSeries.AdornmentsInfo>
                             </chart:ColumnSeries>-->
 
-                <chart:ColumnSeries Label="Venituri" ItemsSource="{Binding Lista_Date}" XBindingPath="Data" YBindingPath="Venituri" Palette="RedChrome" ShowTooltip="True" >
+                <chart:ColumnSeries Name="col_venituri" Label="Venituri" ItemsSource="{Binding Lista_Date}" XBindingPath="Data" YBindingPath="Venituri" Palette="RedChrome" ShowTooltip="True" Visibility="Visible" >
                     <chart:ColumnSeries.AdornmentsInfo>
                         <chart:ChartAdornmentInfo ShowLabel="True"/>
                     </chart:ColumnSeries.AdornmentsInfo>
                 </chart:ColumnSeries>
 
-                <chart:ColumnSeries Label="Venituri din investitii" ItemsSource="{Binding Lista_Date}" XBindingPath="Data" YBindingPath="Venituri_din_investitii" Palette="BlueChrome" ShowTooltip="True">
+                <chart:ColumnSeries Name="col_cheltuieli" Label="Cheltuieli" ItemsSource="{Binding Lista_Date}" XBindingPath="Data" YBindingPath="Cheltuieli" Palette="GreenChrome" ShowTooltip="True" >
                     <chart:ColumnSeries.AdornmentsInfo>
                         <chart:ChartAdornmentInfo ShowLabel="True"/>
                     </chart:ColumnSeries.AdornmentsInfo>
                 </chart:ColumnSeries>
 
-                <chart:ColumnSeries Label="Cheltuieli" ItemsSource="{Binding Lista_Date}" XBindingPath="Data" YBindingPath="Cheltuieli" Palette="GreenChrome" ShowTooltip="True" >
+                <chart:ColumnSeries Name="col_investitii" Label="Investitii" ItemsSource="{Binding Lista_Date}" XBindingPath="Data" YBindingPath="Investitii" Palette="PurpleChrome" ShowTooltip="True" Visibility="Visible" >
                     <chart:ColumnSeries.AdornmentsInfo>
-                        <chart:ChartAdornmentInfo ShowLabel="True"/>
+                        <chart:ChartAdornmentInfo ShowLabel="True" ShowMarker="True" SymbolStroke="Black" SymbolHeight="10" SymbolWidth="10" SymbolInterior="DarkGray" Symbol="Diamond"/>
                     </chart:ColumnSeries.AdornmentsInfo>
                 </chart:ColumnSeries>
-
-                <chart:ColumnSeries Label="Investitii" ItemsSource="{Binding Lista_Date}" XBindingPath="Data" YBindingPath="Investitii" Palette="PurpleChrome" ShowTooltip="True" >
+                
+                <chart:ColumnSeries Name="col_venituri_inv" Label="Venituri din investitii" ItemsSource="{Binding Lista_Date}" XBindingPath="Data" YBindingPath="Venituri_din_investitii" Palette="BlueChrome" ShowTooltip="True">
                     <chart:ColumnSeries.AdornmentsInfo>
                         <chart:ChartAdornmentInfo ShowLabel="True"/>
                     </chart:ColumnSeries.AdornmentsInfo>
                 </chart:ColumnSeries>
 
             </chart:SfChart>
-            <Button Content="Refresh grafice" Click="refresh_grafice" Canvas.Left="371" Canvas.Top="10" Width="97" HorizontalAlignment="Center" Height="25" VerticalAlignment="Top"/>
-            <Button Content="Inchide fereastra" Click="inchide_fereastra" Height="25" Canvas.Left="780" Canvas.Top="10" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+            <Button Name="button_refresh" Content="Refresh grafice" Click="refresh_grafice" Canvas.Left="371" Canvas.Top="10" Width="97" HorizontalAlignment="Center" Height="25" VerticalAlignment="Top"/>
+            <Button Name="button_inchide" Content="Inchide fereastra" Click="inchide_fereastra" Height="25" Canvas.Left="780" Canvas.Top="10" HorizontalAlignment="Center" VerticalAlignment="Top"/>
         </Canvas>
+
     </Grid>
 </Window>

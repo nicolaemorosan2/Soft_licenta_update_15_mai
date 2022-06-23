@@ -20,6 +20,9 @@ namespace Soft_licenta_2
 {
     public partial class MainWindow: Window
     {
+        List<TextBox> textbox_fluxuri_bani;
+        public float row_id = 0, rezultat = 0;
+        public int i = 0;
         //Algoritmi si calcule
         private void calculeaza_profit(object sender, RoutedEventArgs e)
         {

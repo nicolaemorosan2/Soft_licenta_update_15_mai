@@ -20,7 +20,7 @@ namespace Soft_licenta_2
 {
     public partial class MainWindow: Window
     {
-        //Event handlere de la datagriduri (SelectionChanged) pentru a introduce datele in textboxuri
+        List<Grafice> pagini = new List<Grafice>();
         private void afiseaza_grafice(object sender, RoutedEventArgs e)
         {
             if (pagini.Count == 1)
@@ -31,7 +31,13 @@ namespace Soft_licenta_2
             Grafice grafice2 = new Grafice();
             pagini.Add(grafice2);
             pagini[0].Show();
+            /*Grafice grafice2 = new Grafice(*//*this*//* pagini);
+            grafice2.Show();
+            this.Close();
+            pagini.Add(grafice2);
+            pagini[0].Show();*/
         }
+        //Event handlere de la datagriduri (SelectionChanged) pentru a introduce datele in textboxuri
         private void Introdu_date_in_textboxuri(object sender, SelectionChangedEventArgs e)
         {
             TabItem optiuni = (TabItem)tabcontrol_optiuni.SelectedItem;

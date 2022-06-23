@@ -60,7 +60,7 @@ namespace Soft_licenta_2
                 this.venituri = float.Parse(cmd_venituri.ExecuteScalar().ToString());
                 this.venituri_inv = float.Parse(cmd_venituri_inv.ExecuteScalar().ToString());
                 this.chelt = float.Parse(cmd_cheltuieli.ExecuteScalar().ToString());
-                this.inv = float.Parse(cmd_cheltuieli.ExecuteScalar().ToString());
+                this.inv = float.Parse(cmd_investitii.ExecuteScalar().ToString());
 
                 Lista_Date.Add(new Date_financiare{
                     Data = this.data,
