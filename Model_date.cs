@@ -19,9 +19,10 @@ namespace Soft_licenta_2
 {
     public class Model_date
     {
-        int numar, data;
+        int numar;
+        DateTime data;
         float venituri, venituri_inv, chelt, inv;
-        SqlConnection con = new SqlConnection(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Istoric_financiar_4;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+        SqlConnection con = new SqlConnection(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Istoric_financiar_2;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
         
         public List<Date_financiare> Lista_Date { get; set; }
 
@@ -35,20 +36,20 @@ namespace Soft_licenta_2
             };*/
 
             con.Open();
-            SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM [dbo].[Situatie_financiara]", con);
+            SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM [dbo].[Situatie_financiara_1]", con);
             cmd.CommandType = CommandType.Text;
             numar = Convert.ToInt32(cmd.ExecuteScalar());
             
             //MessageBox.Show(numar.ToString()); - imi detecteaza bine cate inregistrari am
 
-            for (int i = 2; i < numar+2; i++)
+            for (int i = 1; i <= numar; i++)
                 {
                 
-                SqlCommand cmd_data = new SqlCommand("SELECT Data FROM [dbo].[Situatie_financiara] WHERE ID_informatie = '" + i + "' ", con);
-                SqlCommand cmd_venituri = new SqlCommand("SELECT Venituri1 FROM [dbo].[Situatie_financiara] WHERE ID_informatie = '" + i + "' ", con);
-                SqlCommand cmd_venituri_inv = new SqlCommand("SELECT Venituri2 FROM [dbo].[Situatie_financiara] WHERE ID_informatie = '" + i + "' ", con);
-                SqlCommand cmd_cheltuieli = new SqlCommand("SELECT Cheltuieli FROM [dbo].[Situatie_financiara] WHERE ID_informatie = '" + i + "' ", con);
-                SqlCommand cmd_investitii = new SqlCommand("SELECT Investitii FROM [dbo].[Situatie_financiara] WHERE ID_informatie = '" + i + "' ", con);
+                SqlCommand cmd_data = new SqlCommand("SELECT Data FROM [dbo].[Situatie_financiara_1] WHERE ID_informatie = '" + i + "' ", con);
+                SqlCommand cmd_venituri = new SqlCommand("SELECT Venituri1 FROM [dbo].[Situatie_financiara_1] WHERE ID_informatie = '" + i + "' ", con);
+                SqlCommand cmd_cheltuieli = new SqlCommand("SELECT Cheltuieli FROM [dbo].[Situatie_financiara_1] WHERE ID_informatie = '" + i + "' ", con);
+                SqlCommand cmd_venituri_inv = new SqlCommand("SELECT Venituri2 FROM [dbo].[Indicatori_roi] WHERE ID_roi = '" + i + "' ", con);
+                SqlCommand cmd_investitii = new SqlCommand("SELECT Investitii FROM [dbo].[Indicatori] WHERE ID_indicatori = '" + i + "' ", con);
 
                 cmd_data.CommandType = CommandType.Text;
                 cmd_venituri.CommandType = CommandType.Text;
@@ -56,7 +57,7 @@ namespace Soft_licenta_2
                 cmd_cheltuieli.CommandType = CommandType.Text;
                 cmd_investitii.CommandType = CommandType.Text;
 
-                this.data = Int32.Parse(cmd_data.ExecuteScalar().ToString()); //Versiune demo de la grafice
+                this.data = (DateTime)cmd_data.ExecuteScalar(); //Versiune demo de la grafice
                 this.venituri = float.Parse(cmd_venituri.ExecuteScalar().ToString());
                 this.venituri_inv = float.Parse(cmd_venituri_inv.ExecuteScalar().ToString());
                 this.chelt = float.Parse(cmd_cheltuieli.ExecuteScalar().ToString());
@@ -70,7 +71,7 @@ namespace Soft_licenta_2
                     Investitii = this.inv
                                             }
                 );
-                //MessageBox.Show(Lista_Date[i-2].Venituri.ToString()); //imi preia bine datele si lista e ok
+                //MessageBox.Show(Lista_Date[i-1].Venituri.ToString()); //imi preia bine datele si lista e ok
             }
             con.Close();
         }

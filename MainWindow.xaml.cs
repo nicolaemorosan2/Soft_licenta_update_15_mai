@@ -26,7 +26,7 @@ namespace Soft_licenta_2
     
     public partial class MainWindow : Window
     {
-        SqlConnection con = new SqlConnection(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Istoric_financiar_4;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+        SqlConnection con = new SqlConnection(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Istoric_financiar_2;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
         public MainWindow(bool is_admin, bool is_admin_partial)
         {
             InitializeComponent();
@@ -41,7 +41,15 @@ namespace Soft_licenta_2
         public void Incarca_Grid()
         {
             //Datagrid date financiare
-            SqlCommand comanda = new SqlCommand("SELECT * FROM dbo.Situatie_financiara", con);
+            SqlCommand comanda = new SqlCommand("SELECT * FROM dbo.Situatie_financiara_1 LEFT JOIN dbo.Indicatori ON dbo.Situatie_financiara_1.Id_informatie = dbo.Indicatori.Id_indicatori " +
+                "LEFT JOIN dbo.Indicatori_roi ON dbo.Situatie_financiara_1.Id_informatie = dbo.Indicatori_roi.Id_roi " +
+                "LEFT JOIN dbo.Indicatori_dob_simpla ON dbo.Situatie_financiara_1.Id_informatie = dbo.Indicatori_dob_simpla.Id_dob_simpla " +
+                "LEFT JOIN dbo.Indicatori_dob_compusa ON dbo.Situatie_financiara_1.Id_informatie = dbo.Indicatori_dob_compusa.Id_dob_compusa", con);
+
+            /*SqlCommand comanda_1 = new SqlCommand("SELECT * FROM dbo.Situatie_financiara LEFT JOIN dbo.Indicatori ON ", con);
+            SqlCommand comanda_2 = new SqlCommand("SELECT * FROM dbo.Situatie_financiara LEFT JOIN dbo.Indicatori ON ", con);
+            SqlCommand comanda_3 = new SqlCommand("SELECT * FROM dbo.Situatie_financiara LEFT JOIN dbo.Indicatori ON ", con);*/
+
             SqlCommand comanda1 = new SqlCommand("SELECT * FROM dbo.Utilizatori", con);
             DataTable tabel = new DataTable();
             DataTable tabel1 = new DataTable();

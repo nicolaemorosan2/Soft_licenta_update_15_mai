@@ -19,10 +19,8 @@
         <Canvas>
             <chart:SfChart Margin="10,10,10,10" Header="Evoluția firmei" MinHeight="764" MaxHeight="764" MinWidth="1280" Canvas.Left="10" Canvas.Top="10" HorizontalAlignment="Stretch" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
 
-
-
                 <chart:SfChart.PrimaryAxis>
-                    <chart:NumericalAxis  Header="Data la care facem analiza" />
+                    <chart:DateTimeAxis Header="Data la care facem analiza" LabelFormat="yyyy-MMM-dd"/>
                 </chart:SfChart.PrimaryAxis>
 
                 <chart:SfChart.SecondaryAxis>

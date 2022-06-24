@@ -27,7 +27,7 @@ namespace Soft_licenta_2
         private void calculeaza_profit(object sender, RoutedEventArgs e)
         {
             rezultat = float.Parse(textbox_profit_venituri_obtinute.Text) - float.Parse(textbox_profit_cheltuieli_obtinute.Text);
-            SqlCommand comanda = new SqlCommand("UPDATE dbo.Situatie_financiara SET Profit = @rezultat WHERE ID_Informatie = @row_id", con);
+            SqlCommand comanda = new SqlCommand("UPDATE dbo.Situatie_financiara_1 SET Profit = @rezultat WHERE ID_informatie = @row_id", con);
             comanda.CommandType = CommandType.Text;
             comanda.Parameters.AddWithValue("@rezultat", rezultat);
             comanda.Parameters.AddWithValue("@row_id", row_id);
@@ -46,7 +46,7 @@ namespace Soft_licenta_2
         private void calculeaza_amort_liniara(object sender, RoutedEventArgs e)
         {
             rezultat = float.Parse(textbox_suma_investita_amort_liniara.Text) / float.Parse(perioada_investita_amort_liniara.Text);
-            SqlCommand comanda = new SqlCommand("UPDATE dbo.Situatie_financiara SET Amortizare_liniara = @rezultat WHERE ID_Informatie = @row_id", con);
+            SqlCommand comanda = new SqlCommand("UPDATE dbo.Indicatori SET Amortizare_liniara = @rezultat WHERE ID_indicatori = @row_id", con);
             comanda.CommandType = CommandType.Text;
             comanda.Parameters.AddWithValue("@rezultat", rezultat);
             comanda.Parameters.AddWithValue("@row_id", row_id);
@@ -194,7 +194,7 @@ namespace Soft_licenta_2
             //Verificare valori exacte - temp si rezultat - pentru a vedea daca in coloana se petrece "truncherea"
             //MessageBox.Show("temp este " + temp + " iar rezultat este " + rezultat);
 
-            SqlCommand comanda = new SqlCommand("UPDATE dbo.Situatie_financiara SET ROI = @rezultat WHERE ID_Informatie = @row_id", con);
+            SqlCommand comanda = new SqlCommand("UPDATE dbo.Indicatori_roi SET ROI = @rezultat WHERE ID_roi = @row_id", con);
             comanda.CommandType = CommandType.Text;
             comanda.Parameters.AddWithValue("@rezultat", rezultat);
             comanda.Parameters.AddWithValue("@row_id", row_id);
@@ -220,7 +220,7 @@ namespace Soft_licenta_2
             }
             else
                 MessageBox.Show("Ati introdus o perioada > 12 luni, iar acest caz este acoperit la optiunea 'Dobanda Compusa'", "Va rugam sa reincercati!", MessageBoxButton.OK, MessageBoxImage.Information);
-            SqlCommand comanda = new SqlCommand("UPDATE dbo.Situatie_financiara SET Dobanda_simpla = @dobanda, Suma_finala_dobanda_simpla = @suma_finala WHERE ID_Informatie = @row_id", con);
+            SqlCommand comanda = new SqlCommand("UPDATE dbo.Indicatori_dob_simpla SET Dobanda_simpla = @dobanda, Suma_finala_dobanda_simpla = @suma_finala WHERE ID_dob_simpla = @row_id", con);
             comanda.CommandType = CommandType.Text;
             comanda.Parameters.AddWithValue("@dobanda", dobanda);
             comanda.Parameters.AddWithValue("@suma_finala", suma_finala);
@@ -244,7 +244,7 @@ namespace Soft_licenta_2
                 suma_finala = (float)Math.Round(suma_init * Math.Pow((1 + rata_dob / 100), perioada), 3);
                 dobanda = (float)Math.Round((suma_finala - suma_init), 3);
             }
-            SqlCommand comanda = new SqlCommand("UPDATE dbo.Situatie_financiara SET Dobanda_compusa = @dobanda, Suma_finala_dobanda_compusa = @suma_finala WHERE ID_Informatie = @row_id", con);
+            SqlCommand comanda = new SqlCommand("UPDATE dbo.Indicatori_dob_compusa SET Dobanda_compusa = @dobanda, Suma_finala_dobanda_compusa = @suma_finala WHERE ID_dob_compusa = @row_id", con);
             comanda.CommandType = CommandType.Text;
             comanda.Parameters.AddWithValue("@dobanda", dobanda);
             comanda.Parameters.AddWithValue("@suma_finala", suma_finala);
@@ -293,9 +293,9 @@ namespace Soft_licenta_2
             while (r < 1 && VAN2 > 0)
             {
                 VAN_temp_RIR = 0;
-                for (i = 0; i < int.Parse(textbox_rir_perioada.Text); i++)
+                for (i = 1; i <= int.Parse(textbox_rir_perioada.Text); i++)
                 {
-                    VAN_temp_RIR += float.Parse(textbox_fluxuri_bani[i].Text) / (Math.Pow((1 + r), (i + 1)));
+                    VAN_temp_RIR += float.Parse(textbox_fluxuri_bani[i-1].Text) / (Math.Pow((1 + r), (i)));
                 }
                 VAN2 = VAN_temp_RIR - float.Parse(textbox_rir_suma_investita.Text);
                 r2 = r;
@@ -305,9 +305,9 @@ namespace Soft_licenta_2
             while (r_prim > 0 && VAN1 < 0)
             {
                 VAN_temp_RIR = 0;
-                for (i = 0; i < int.Parse(textbox_rir_perioada.Text); i++)
+                for (i = 1; i <= int.Parse(textbox_rir_perioada.Text); i++)
                 {
-                    VAN_temp_RIR += float.Parse(textbox_fluxuri_bani[i].Text) / (Math.Pow((1 + r_prim), (i + 1)));
+                    VAN_temp_RIR += float.Parse(textbox_fluxuri_bani[i-1].Text) / (Math.Pow((1 + r_prim), (i)));
                 }
                 VAN1 = VAN_temp_RIR - float.Parse(textbox_rir_suma_investita.Text);
                 r1 = r_prim;
@@ -318,7 +318,7 @@ namespace Soft_licenta_2
             //Afisare RIR - vedem daca a calculat
             MessageBox.Show("RIR este " + RIR + "%");
 
-            SqlCommand comanda = new SqlCommand("UPDATE dbo.Situatie_financiara SET RIR = @RIR WHERE ID_Informatie = @row_id", con);
+            SqlCommand comanda = new SqlCommand("UPDATE dbo.Indicatori SET RIR = @RIR WHERE ID_indicatori = @row_id", con);
             comanda.CommandType = CommandType.Text;
             comanda.Parameters.AddWithValue("@RIR", RIR);
             comanda.Parameters.AddWithValue("@row_id", row_id);
@@ -347,14 +347,14 @@ namespace Soft_licenta_2
         private void calculeaza_van(object sender, RoutedEventArgs e)
         {
             float VAN_temp = 0, VAN = 0;
-            for (i = 0; i < int.Parse(textbox_van_perioada.Text); i++)
+            for (i = 1; i <= int.Parse(textbox_van_perioada.Text); i++)
             {
-                VAN_temp = VAN_temp + float.Parse(textbox_fluxuri_bani[i].Text) / (float)(Math.Pow((1 + float.Parse(textbox_van_rata_randament.Text)), (i + 1)));
+                VAN_temp = VAN_temp + float.Parse(textbox_fluxuri_bani[i-1].Text) / (float)(Math.Pow((1 + float.Parse(textbox_van_rata_randament.Text)/100), (i)));
             }
             VAN = VAN_temp - float.Parse(textbox_van_suma_investita.Text);
             MessageBox.Show("VAN este " + VAN);
 
-            SqlCommand comanda = new SqlCommand("UPDATE dbo.Situatie_financiara SET VAN = @VAN WHERE ID_Informatie = @row_id", con);
+            SqlCommand comanda = new SqlCommand("UPDATE dbo.Indicatori SET VAN = @VAN WHERE ID_indicatori = @row_id", con);
             comanda.CommandType = CommandType.Text;
             comanda.Parameters.AddWithValue("@VAN", VAN);
             comanda.Parameters.AddWithValue("@row_id", row_id);

@@ -213,7 +213,6 @@
       <DependentUpon>Grafice.xaml</DependentUpon>
     </Compile>
     <Compile Include="crud_utilizatori.cs" />
-    <Compile Include="Test.cs" />
     <Page Include="Autentificare.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

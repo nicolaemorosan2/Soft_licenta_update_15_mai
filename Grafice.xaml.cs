@@ -18,6 +18,8 @@ namespace Soft_licenta_2
 {
     public partial class Grafice : Window
     {
+        //Ca idee, formatul datei din tabela este luna/zi/an
+
         /*private MainWindow mainWindow;*/
         /*List<Grafice> graficeList;*/
         /*public MainWindow baza { get; private set; }*/

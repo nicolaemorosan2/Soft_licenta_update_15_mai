@@ -8,7 +8,7 @@ namespace Soft_licenta_2
 {
     public class Date_financiare
     {  
-        public int Data { get; set; }
+        public DateTime Data { get; set; }
         public float Venituri { get; set; }
         public float Venituri_din_investitii { get; set; }
         public float Cheltuieli { get; set; }
