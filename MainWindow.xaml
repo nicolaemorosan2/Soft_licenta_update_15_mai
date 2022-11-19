@@ -315,6 +315,7 @@
                     <Button x:Name="button_adauga" Content="Adauga inregistrare noua" Canvas.Left="734" Canvas.Top="285" Click="Adauga_inreg" HorizontalAlignment="Center"/>
                     <Button x:Name="button_editeaza" Content="Editeaza inregistrare" Canvas.Left="744" Canvas.Top="369" HorizontalAlignment="Center" VerticalAlignment="Top" Click="Editeaza_inreg"/>
                     <Button x:Name="button_sterge" Content="Sterge inregistrare" Canvas.Left="779" Canvas.Top="398" HorizontalAlignment="Center" VerticalAlignment="Top" Click="Sterge_inreg"/>
+                    <Button x:Name="button_refresh" Content="Refresh campuri" Canvas.Left="734" Canvas.Top="285" Click="Refresh_campuri" HorizontalAlignment="Center"/>
                 </StackPanel>
             </GroupBox>
             <Image Height="68" Width="185" Canvas.Left="767" Canvas.Top="10" Source="N:\Work\Morosan's Educational Company\Poze si Video\Logo\logo.png" HorizontalAlignment="Left" VerticalAlignment="Center"/>

@@ -96,3 +96,5 @@ namespace Soft_licenta_2
         }
     }
 }
+
+//Some random comments just for the sake of changing the source code

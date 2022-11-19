@@ -63,5 +63,10 @@ namespace Soft_licenta_2
             datagrid_utilizatori.ItemsSource = tabel1.DefaultView;
             con.Close();
         }
+
+        private void Refresh_campuri(object sender, RoutedEventArgs e)
+        {
+            curata_date();
+        }
     }
 }
